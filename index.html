@@ -1,0 +1,593 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>RS Hadi — Dokter Terbaik. Tanpa Antre.</title>
+
+    <!-- Google Fonts: Plus Jakarta Sans & Instrument Serif (untuk teks aksen miring) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="css/variables.css" />
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/responsive.css" />
+
+    <!-- Library Eksternal via CDN (Three.js, GSAP + ScrollTrigger, QRCode) -->
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"
+      defer
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"
+      defer
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"
+      defer
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"
+      defer
+    ></script>
+
+    <!-- Main Script (Modular ES6) -->
+    <script type="module" src="js/main.js" defer></script>
+  </head>
+  <body>
+    <!-- ================= NAVBAR MELAYANG ================= -->
+    <header class="navbar-wrapper">
+      <nav class="navbar">
+        <a href="#" class="logo">hadi<span class="dot">.</span></a>
+
+        <ul class="nav-links">
+          <li><a href="#ambulans">Ambulans</a></li>
+          <li><a href="#layanan">Layanan</a></li>
+          <li><a href="#dokter">Dokter</a></li>
+          <li><a href="#aplikasi">Aplikasi</a></li>
+          <li><a href="#mcu">Paket MCU</a></li>
+        </ul>
+
+        <div class="nav-actions">
+          <button class="btn-ghost" id="btnLoginNav">Masuk</button>
+          <button class="btn-dark open-booking-modal">
+            Buat Janji <span>&rarr;</span>
+          </button>
+        </div>
+
+        <!-- Tombol Khusus Mobile -->
+        <div class="nav-mobile-Controls">
+          <a
+            href="tel:1500911"
+            class="btn-icon-phone"
+            aria-label="Panggilan Darurat"
+          >
+            <svg
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path
+                d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"
+              />
+            </svg>
+          </a>
+          <button class="btn-hamburger" id="btnHamburger" aria-label="Menu">
+            <span></span><span></span><span></span>
+          </button>
+        </div>
+      </nav>
+
+      <!-- Dropdown Menu Mobile -->
+      <div class="mobile-menu hidden" id="mobileMenu">
+        <a href="#ambulans" class="mobile-link">Ambulans <span>&rarr;</span></a>
+        <a href="#layanan" class="mobile-link">Layanan <span>&rarr;</span></a>
+        <a href="#dokter" class="mobile-link">Dokter <span>&rarr;</span></a>
+        <a href="#aplikasi" class="mobile-link">Aplikasi <span>&rarr;</span></a>
+        <a href="#mcu" class="mobile-link">Paket MCU <span>&rarr;</span></a>
+        <div class="mobile-menu-cta">
+          <button class="btn-dark btn-full open-booking-modal">
+            Buat Janji <span>&rarr;</span>
+          </button>
+          <button class="btn-outline btn-full">Masuk ke akun</button>
+        </div>
+        <div class="mobile-emergency-note">
+          <span class="status-dot green"></span> IGD & ambulans 24 jam &middot;
+          <strong>1500-911</strong>
+        </div>
+      </div>
+    </header>
+
+    <!-- ================= HERO & 3D SCROLLYTELLING ================= -->
+    <section class="scrolly-section" id="scrollySection">
+      <!-- Wadah Sticky Kanvas 3D -->
+      <div class="canvas-sticky-container">
+        <canvas id="hospital3DCanvas"></canvas>
+
+        <!-- Catatan Tangan Estetik (Muncul di Hero Desktop) -->
+        <div class="handwritten-note" id="heroNote">
+          Lebih dekat,<br />lebih tenang.
+        </div>
+
+        <!-- Bar Navigasi Step Bawah (01 - 06) -->
+        <div class="scrolly-bottom-bar">
+          <div class="step-tabs" id="stepTabs">
+            <button class="step-tab active" data-step="0">
+              <span class="step-num">01</span>
+              <span class="step-label">Pasien</span>
+            </button>
+            <button class="step-tab" data-step="1">
+              <span class="step-num">02</span>
+              <span class="step-label">Pendaftaran</span>
+            </button>
+            <button class="step-tab" data-step="2">
+              <span class="step-num">03</span>
+              <span class="step-label">Poli</span>
+            </button>
+            <button class="step-tab" data-step="3">
+              <span class="step-num">04</span>
+              <span class="step-label">Lab & Radiologi</span>
+            </button>
+            <button class="step-tab" data-step="4">
+              <span class="step-num">05</span>
+              <span class="step-label">Farmasi</span>
+            </button>
+            <button class="step-tab" data-step="5">
+              <span class="step-num">06</span>
+              <span class="step-label">Kasir</span>
+            </button>
+          </div>
+          <a href="#ambulans" class="skip-scrolly">Lewati &darr;</a>
+        </div>
+      </div>
+
+      <!-- Kolom Kiri / Bawah: Teks Scrollytelling yang di-scroll -->
+      <div class="scrolly-content-track">
+        <!-- STEP 0: HERO / EKSTERIOR GEDUNG -->
+        <article class="scrolly-step active" data-index="0">
+          <div class="step-card-inner">
+            <p class="eyebrow">MERAWAT HARI ESOK YANG LEBIH CERAH</p>
+            <h1 class="display-title">
+              Dokter Terbaik.<br />
+              <span class="text-orange">Tanpa Antre.</span>
+            </h1>
+            <p class="lead-desc">
+              Ikuti perjalanan pasien di RS Hadi—dari pendaftaran sampai pulang,
+              semuanya tertata dan bisa dipantau dari ponsel.
+            </p>
+
+            <!-- Widget Cari Cepat -->
+            <div class="quick-search-bar">
+              <div class="qs-field">
+                <label>POLIKLINIK</label>
+                <select id="quickPoliSelect">
+                  <option value="">Pilih spesialis</option>
+                  <option value="jantung">Jantung & Pembuluh Darah</option>
+                  <option value="anak">Kesehatan Anak</option>
+                  <option value="kandungan">Kebidanan & Kandungan</option>
+                  <option value="penyakit-dalam">Penyakit Dalam</option>
+                </select>
+              </div>
+              <div class="qs-divider"></div>
+              <div class="qs-field">
+                <label>TANGGAL</label>
+                <select id="quickDateSelect">
+                  <option value="kapan-saja">Kapan saja</option>
+                  <option value="hari-ini">Hari Ini</option>
+                  <option value="besok">Besok</option>
+                </select>
+              </div>
+              <button
+                class="btn-orange qs-btn open-booking-modal"
+                aria-label="Cari Jadwal"
+              >
+                <span class="qs-btn-text">Cari jadwal</span> &rarr;
+              </button>
+            </div>
+
+            <!-- Statistik Singkat -->
+            <div class="hero-stats">
+              <div class="stat-item">
+                <strong>120+</strong>
+                <span>Dokter spesialis</span>
+              </div>
+              <div class="stat-item">
+                <strong>98%</strong>
+                <span>Pasien puas</span>
+              </div>
+              <div class="stat-item">
+                <strong>24/7</strong>
+                <span>IGD & ambulans</span>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- STEP 1: PENDAFTARAN -->
+        <article class="scrolly-step" data-index="1">
+          <div class="step-card-inner">
+            <p class="eyebrow">LANGKAH 1 &middot; PENDAFTARAN</p>
+            <h2 class="section-title">
+              Ambil Antrean,<br />
+              <span class="text-orange">Pantau dari Ponsel.</span>
+            </h2>
+            <p class="lead-desc">
+              Nomor antrean bisa diambil online. Layar di lobi dan aplikasi
+              menampilkan giliran yang sama, jadi Anda cukup datang saat
+              dipanggil.
+            </p>
+
+            <div class="ui-widget-card">
+              <div class="widget-header">
+                <span class="status-dot green"></span>
+                <strong>Layar antrean &middot; Pendaftaran</strong>
+              </div>
+              <div class="queue-box">
+                <div class="queue-left">
+                  <span class="queue-sub">NOMOR ANDA</span>
+                  <strong class="queue-number">A-012</strong>
+                </div>
+                <div class="queue-badge-orange">
+                  <span>Loket</span>
+                  <strong>2</strong>
+                </div>
+              </div>
+              <p class="widget-foot-note">
+                Sedang dilayani <strong>A-011</strong> &middot; giliran Anda
+                &plusmn;3 menit lagi
+              </p>
+              <button class="btn-dark btn-full open-booking-modal">
+                Ambil antrean online &rarr;
+              </button>
+            </div>
+          </div>
+        </article>
+
+        <!-- STEP 2: POLIKLINIK -->
+        <article class="scrolly-step" data-index="2">
+          <div class="step-card-inner">
+            <p class="eyebrow">LANGKAH 2 &middot; POLIKLINIK</p>
+            <h2 class="section-title">
+              Dicek Perawat,<br />
+              <span class="text-orange">Ditangani Dokter.</span>
+            </h2>
+            <p class="lead-desc">
+              Perawat mencatat tanda-tanda vital—tensi, nadi, suhu, berat
+              badan—lalu dokter spesialis memeriksa dengan data yang sudah
+              lengkap.
+            </p>
+
+            <div class="ui-widget-card">
+              <div class="widget-header">
+                <span class="icon-circle">&#9825;</span>
+                <strong>Tanda-tanda vital &middot; dicatat perawat</strong>
+              </div>
+              <div class="vitals-grid">
+                <div class="vital-item">
+                  <span>Tensi</span>
+                  <strong>118/76 <small>mmHg</small></strong>
+                </div>
+                <div class="vital-item">
+                  <span>Nadi</span>
+                  <strong>78 <small>bpm</small></strong>
+                </div>
+                <div class="vital-item">
+                  <span>Suhu</span>
+                  <strong>36,6 <small>&deg;C</small></strong>
+                </div>
+                <div class="vital-item">
+                  <span>Berat</span>
+                  <strong>62 <small>kg</small></strong>
+                </div>
+              </div>
+              <div class="doctor-mini-bar">
+                <div class="doc-mini-avatar">HW</div>
+                <div class="doc-mini-info">
+                  <strong>dr. Hendra Wijaya</strong>
+                  <span>Penyakit Dalam &middot; siap memeriksa</span>
+                </div>
+                <button class="link-orange open-booking-modal">
+                  Pilih dokter
+                </button>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- STEP 3: LABORATORIUM & RADIOLOGI -->
+        <article class="scrolly-step" data-index="3">
+          <div class="step-card-inner">
+            <p class="eyebrow">LANGKAH 3 &middot; LABORATORIUM & RADIOLOGI</p>
+            <h2 class="section-title">
+              Lab & Rontgen,<br />
+              <span class="text-orange">Hasil Langsung Masuk.</span>
+            </h2>
+            <p class="lead-desc">
+              Pengambilan sampel dan rontgen dalam satu gedung. Hasilnya
+              otomatis terkirim ke dokter dan ke aplikasi Anda.
+            </p>
+
+            <div class="ui-widget-card">
+              <div class="widget-header">
+                <span class="icon-circle">&#9878;</span>
+                <strong>Hasil pemeriksaan penunjang</strong>
+              </div>
+              <div class="lab-list">
+                <div class="lab-item">
+                  <span class="check-circle green">&check;</span>
+                  <div class="lab-text">
+                    <strong>Darah lengkap</strong>
+                    <span>Selesai dalam 35 menit &middot; normal</span>
+                  </div>
+                  <span class="pill-tag">Lab</span>
+                </div>
+                <div class="lab-item">
+                  <span class="check-circle green">&check;</span>
+                  <div class="lab-text">
+                    <strong>Rontgen thorax</strong>
+                    <span>Sudah dibaca dokter radiologi</span>
+                  </div>
+                  <span class="pill-tag">Radiologi</span>
+                </div>
+                <div class="lab-item">
+                  <span class="check-circle orange-spin">&#9696;</span>
+                  <div class="lab-text">
+                    <strong>Gula darah puasa</strong>
+                    <span>Sedang diproses &middot; &plusmn;15 menit</span>
+                  </div>
+                  <span class="pill-tag">Lab</span>
+                </div>
+              </div>
+              <p class="widget-foot-note">
+                &#128241; Otomatis masuk ke aplikasi Hadi
+              </p>
+            </div>
+          </div>
+        </article>
+
+        <!-- STEP 4: FARMASI -->
+        <article class="scrolly-step" data-index="4">
+          <div class="step-card-inner">
+            <p class="eyebrow">LANGKAH 4 &middot; FARMASI</p>
+            <h2 class="section-title">
+              Resep Digital,<br />
+              <span class="text-orange">Obat Siap Diambil.</span>
+            </h2>
+            <p class="lead-desc">
+              Resep dikirim langsung dari ruang dokter ke farmasi. Notifikasi
+              masuk begitu obat siap, tanpa perlu menunggu di depan loket.
+            </p>
+
+            <div class="ui-widget-card">
+              <div class="widget-header-between">
+                <div><strong>&#128138; Resep digital #R-2041</strong></div>
+                <span class="badge-green">Siap diambil</span>
+              </div>
+              <div class="progress-steps-mini">
+                <span class="done">&check; Diterima</span>
+                <span class="done">&check; Disiapkan</span>
+                <span class="active-orange">&#9675; Siap diambil</span>
+              </div>
+              <ul class="med-list">
+                <li>
+                  <span>Omeprazole 20 mg</span> <strong>14 kapsul</strong>
+                </li>
+                <li>
+                  <span>Paracetamol 500 mg</span> <strong>10 tablet</strong>
+                </li>
+                <li>
+                  <span>Vitamin B kompleks</span> <strong>30 tablet</strong>
+                </li>
+              </ul>
+              <p class="widget-foot-note">
+                &#128666; Tidak sempat menunggu? Obat bisa diantar ke rumah.
+              </p>
+            </div>
+          </div>
+        </article>
+
+        <!-- STEP 5: KASIR -->
+        <article class="scrolly-step" data-index="5">
+          <div class="step-card-inner">
+            <p class="eyebrow">LANGKAH 5 &middot; KASIR</p>
+            <h2 class="section-title">
+              Satu Tagihan,<br />
+              <span class="text-orange">Langsung Pulang.</span>
+            </h2>
+            <p class="lead-desc">
+              Konsultasi, lab, dan obat dirangkum dalam satu tagihan. Bayar
+              dengan QRIS, kartu, e-wallet, atau BPJS, lalu struk masuk ke
+              WhatsApp.
+            </p>
+
+            <div class="ui-widget-card">
+              <div class="widget-header">
+                <strong>&#129534; Tagihan kunjungan</strong>
+              </div>
+              <ul class="bill-list">
+                <li>
+                  <span>Konsultasi dokter</span> <strong>Rp 150.000</strong>
+                </li>
+                <li>
+                  <span>Lab & radiologi</span> <strong>Rp 285.000</strong>
+                </li>
+                <li><span>Obat</span> <strong>Rp 64.500</strong></li>
+                <li class="bill-total">
+                  <span>Total</span> <strong>Rp 499.500</strong>
+                </li>
+              </ul>
+              <div class="payment-pills">
+                <span>QRIS</span><span>Kartu</span><span>E-wallet</span
+                ><span>BPJS</span>
+              </div>
+              <button class="btn-dark btn-full open-booking-modal">
+                Buat janji sekarang &rarr;
+              </button>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- ================= SEKSI AMBULANS SIAGA 24 JAM ================= -->
+    <section class="section-container" id="ambulans">
+      <div class="ambulance-grid">
+        <div class="ambulance-text">
+          <p class="eyebrow">AMBULANS SIAGA 24 JAM</p>
+          <h2 class="section-title">Setiap Detik<br />Berharga.</h2>
+          <p class="lead-desc">
+            Panggil ambulans dalam satu ketukan dan pantau posisinya secara
+            real-time hingga tiba di depan pintu Anda.
+          </p>
+          <div class="btn-group-row">
+            <button class="btn-orange" id="btnSimulateAmbulance">
+              Panggil Ambulans &rarr;
+            </button>
+            <button class="btn-play-ghost" id="btnResetAmbulance">
+              <span class="play-icon">&#9654;</span> Cara kerja
+            </button>
+          </div>
+        </div>
+
+        <div class="ambulance-visual-wrapper">
+          <!-- Peta Isometrik Interaktif (SVG + Animasi Track) -->
+          <div class="iso-map-card">
+            <div class="map-pin pin-patient">Rumah pasien</div>
+            <div class="map-pin pin-eta" id="ambulanceEtaBadge">
+              &#10148; <span id="etaMinutes">7</span> mnt lagi
+            </div>
+            <div class="map-pin pin-hospital">
+              <span class="plus-badge">+</span> IGD RS Hadi
+            </div>
+
+            <svg viewBox="0 0 600 320" class="iso-road-svg">
+              <!-- Jalur Jalan Abu-abu -->
+              <path
+                d="M 70 230 Q 180 120 300 180 T 530 100"
+                fill="none"
+                stroke="#E5DEC9"
+                stroke-width="26"
+                stroke-linecap="round"
+              />
+              <!-- Jalur Rute Oranye Aktif -->
+              <path
+                id="ambulanceRoutePath"
+                d="M 70 230 Q 180 120 300 180 T 530 100"
+                fill="none"
+                stroke="#E86A17"
+                stroke-width="6"
+                stroke-dasharray="8 6"
+                stroke-linecap="round"
+              />
+              <!-- Titik Rumah & RS -->
+              <circle cx="70" cy="230" r="10" fill="#1A1A1A" />
+              <circle cx="530" cy="100" r="10" fill="#E86A17" />
+              <!-- Ikon Mobil Ambulans Bergerak -->
+              <g id="ambulanceMarker" transform="translate(300, 175)">
+                <rect
+                  x="-18"
+                  y="-12"
+                  width="36"
+                  height="22"
+                  rx="5"
+                  fill="#FFFFFF"
+                  stroke="#1A1A1A"
+                  stroke-width="2"
+                />
+                <rect
+                  x="6"
+                  y="-8"
+                  width="10"
+                  height="10"
+                  rx="2"
+                  fill="#E86A17"
+                />
+                <text
+                  x="-8"
+                  y="4"
+                  font-size="12"
+                  font-weight="bold"
+                  fill="#E86A17"
+                >
+                  +
+                </text>
+              </g>
+            </svg>
+          </div>
+
+          <!-- Kartu Status Tracking Ambulans -->
+          <div class="ambulance-status-card">
+            <div class="amb-card-head">
+              <span class="amb-icon-box">&#128657;</span>
+              <div>
+                <strong
+                  >Dalam Perjalanan <span class="status-dot green"></span
+                ></strong>
+                <p>
+                  Tiba &plusmn; <span id="etaTextStatus">7</span> menit &middot;
+                  Unit AMB-07
+                </p>
+              </div>
+            </div>
+            <ul class="amb-timeline">
+              <li class="done">
+                <span>Panggilan diterima</span> <small>21:13</small>
+              </li>
+              <li class="done">
+                <span>Ambulans berangkat</span> <small>21:14</small>
+              </li>
+              <li class="current">
+                <span>Dalam perjalanan</span>
+                <small class="text-orange"
+                  ><span id="etaTimeline">7</span> mnt lagi</small
+                >
+              </li>
+              <li><span>Tiba di lokasi</span> <small>&plusmn; 21:22</small></li>
+            </ul>
+            <a href="tel:1500911" class="btn-outline btn-full"
+              >&#128222; Hubungi paramedis</a
+            >
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= SEKSI LAYANAN UNGGULAN ================= -->
+    <section class="section-container" id="layanan">
+      <div class="split-section-layout">
+        <div class="split-header-col">
+          <p class="eyebrow">LAYANAN UNGGULAN</p>
+          <h2 class="section-title">
+            Perawatan<br />untuk Setiap<br />Kebutuhan.
+          </h2>
+          <p class="lead-desc">
+            Dari gawat darurat hingga klinik spesialis — layanan lengkap untuk
+            Anda dan keluarga, dalam satu atap.
+          </p>
+          <button class="btn-outline open-booking-modal">
+            Semua Layanan &rarr;
+          </button>
+        </div>
+
+        <div class="services-cards-grid">
+          <div class="service-card open-booking-modal" data-poli="igd">
+            <div class="service-3d-illus illus-igd">
+              <div class="medkit-box"><span class="plus-cross">+</span></div>
+            </div>
+            <div class="service-icon-badge">&#128680;</div>
+            <h3>IGD 24 Jam</h3>
+            <p>Tim gawat darurat & ambulans sia</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </body>
+</html>

@@ -1,0 +1,129 @@
+@media (max-width: 960px) {
+  .nav-links,
+  .nav-actions {
+    display: none;
+  }
+  .nav-mobile-Controls {
+    display: flex;
+  }
+
+  /* Di Mobile: Layar Terkunci Penuh, 38% Atas = 3D, 62% Bawah = Kartu Teks */
+  .canvas-sticky-container {
+    display: block;
+    height: 100vh;
+  }
+
+  #hospital3DCanvas {
+    width: 100%;
+    height: 39vh;
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+
+  /* Efek Gradasi Kabut Krem di batas bawah 3D persis seperti video! */
+  .canvas-sticky-container::after {
+    content: "";
+    position: absolute;
+    top: 31vh;
+    left: 0;
+    right: 0;
+    height: 9vh;
+    background: linear-gradient(to bottom, rgba(250, 246, 240, 0), #faf6f0 90%);
+    pointer-events: none;
+    z-index: 6;
+  }
+
+  .handwritten-note,
+  .scrolly-bottom-bar {
+    display: none;
+  }
+
+  /* Area Teks Mobile berada di 61% bawah layar, tidak akan pernah menabrak 3D di atas! */
+  .scrolly-content-track {
+    width: 100%;
+    height: 100vh;
+    margin-top: -100vh;
+    padding: 38vh 1.15rem 1rem;
+    align-items: flex-start;
+  }
+
+  .scrolly-step {
+    position: absolute;
+    top: 38.5vh;
+    left: 1.15rem;
+    right: 1.15rem;
+    width: auto;
+    max-width: none;
+  }
+
+  .display-title {
+    font-size: 2.15rem;
+    margin-bottom: 0.55rem;
+  }
+  .section-title {
+    font-size: 1.85rem;
+    margin-bottom: 0.45rem;
+  }
+  .lead-desc {
+    font-size: 0.85rem;
+    margin-bottom: 0.85rem;
+    line-height: 1.48;
+  }
+
+  .quick-search-bar {
+    flex-wrap: wrap;
+    padding: 0.7rem;
+    margin-bottom: 0.85rem;
+  }
+  .qs-btn {
+    width: 100%;
+    margin-top: 0.35rem;
+    padding: 0.7rem;
+  }
+  .qs-btn-text {
+    display: inline;
+  }
+  .hero-stats {
+    display: none; /* Di video mobile, statistik disembunyikan agar muat 1 layar */
+  }
+
+  .split-section-layout,
+  .ambulance-grid,
+  .ambulance-visual-wrapper,
+  .app-showcase-grid,
+  .testimonial-grid,
+  .cta-dark-banner,
+  .footer-grid,
+  .services-cards-grid,
+  .doctors-cards-grid,
+  .mcu-cards-grid,
+  .testi-cards-wrapper {
+    grid-template-columns: 1fr;
+    gap: 1.75rem;
+  }
+
+  .floating-delivery-card {
+    position: static;
+    width: 100%;
+    margin-top: 1rem;
+  }
+  .app-mockup-col {
+    flex-direction: column;
+  }
+  .phone-mockup {
+    transform: none;
+  }
+
+  .booking-modal {
+    grid-template-columns: 1fr;
+    max-height: 95vh;
+  }
+  .modal-sidebar {
+    display: none;
+  }
+  .modal-options-grid,
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+}

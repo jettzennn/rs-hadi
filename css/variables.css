@@ -1,0 +1,87 @@
+:root {
+  /* Palet Warna Khas RS Hadi (Warm Cream & Terracotta Orange) */
+  --bg-cream: #faf6f0;
+  --bg-cream-alt: #f3ede2;
+  --bg-card: #ffffff;
+  --bg-dark: #161514;
+  --bg-dark-card: #22201e;
+
+  --text-primary: #1a1917;
+  --text-secondary: #656059;
+  --text-muted: #968f85;
+  --text-light: #faf6f0;
+
+  --accent-orange: #e86a17;
+  --accent-orange-hover: #cf5a0e;
+  --accent-orange-soft: #fdf0e6;
+
+  --status-green: #1f9d68;
+  --status-green-soft: #e6f6ef;
+
+  --border-light: #e6dfd3;
+  --border-hover: #d0c6b4;
+
+  /* Tipografi */
+  --font-sans:
+    "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-serif: "Instrument Serif", Georgia, serif;
+  --font-mono: "JetBrains Mono", monospace;
+
+  /* Radius & Bayangan */
+  --radius-sm: 10px;
+  --radius-md: 16px;
+  --radius-lg: 24px;
+  --radius-pill: 999px;
+
+  --shadow-soft: 0 12px 32px -8px rgba(26, 25, 23, 0.06);
+  --shadow-modal: 0 28px 64px -12px rgba(26, 25, 23, 0.28);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  background-color: var(--bg-cream);
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  overflow-x: hidden;
+  line-height: 1.5;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button,
+select,
+input {
+  font-family: inherit;
+  border: none;
+  background: none;
+  outline: none;
+}
+
+button {
+  cursor: pointer;
+}
+
+ul {
+  list-style: none;
+}
+
+.hidden {
+  display: none !important;
+}
+
+.text-orange {
+  color: var(--accent-orange);
+}
